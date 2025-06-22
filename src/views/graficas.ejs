@@ -25,6 +25,9 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script>
+        function formatearDecimales(numero, decimales = 2) {
+            return parseFloat(numero).toFixed(decimales);
+        }
         // Configuración de Firebase
         const firebaseConfig = {
             apiKey: "AIzaSyB41svdnDLDUDTotvn8N0TVfVeNWgG9ypk",
@@ -105,7 +108,7 @@
             }
             dataArray.push({ value, now });
             chart.data.labels.push(now);
-            chart.data.datasets[0].data.push(value);
+            chart.data.datasets[0].data.push(formatearDecimales(value));
             chart.update();
         }
 
