@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>
+        <%= typeof title !=='undefined' ? title : 'Sistema QR Equipos' %>
+    </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css">
+</head>
+
+<body class="bg-gray-100 pb-20 md:pb-6">
+    <%- include('navbar') %>
+        <div id="main-content" class="transition-all duration-300 md:ml-16 p-4 ">
+            <div class="md:text-base text-gray-700 m-2 absolute right-4 top-4">
+                <% if (typeof user !=='undefined' ) { %>
+                    Bienvenido, <span class="font-semibold">
+                        <%= user.correo %>
+                    </span>
+                    <% } else { %>
+                        Bienvenido, <span class="font-semibold">Invitado</span>
+                        <% } %>
+            </div>

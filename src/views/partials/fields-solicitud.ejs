@@ -1,0 +1,18 @@
+<% const today=new Date().toISOString().split('T')[0]; %>
+
+    <% const campos=[ ['codigo', 'Código de Solicitud' ], ['fecha_solicitud', 'Fecha de Solicitud' , 'date' ],
+        ['responsable', 'Nombre Responsable' ], ['ci_responsable', 'C.I. Responsable' ], ['tecnico', 'Nombre Técnico' ],
+        ['ci_tecnico', 'C.I. Técnico' ] ]; %>
+
+        <% campos.forEach(([name, label, type='text' ])=> { %>
+            <div class="mb-4">
+                <label class="block text-gray-600 mb-1">
+                    <%= label %>
+                </label>
+                <input name="<%= name %>" type="<%= type %>" class="w-full p-3 border rounded-lg"
+                    value="<%= solicitud && solicitud[name] ? solicitud[name] : (name === 'fecha_solicitud' ? today : '') %>"
+                    <%=name==='fecha_solicitud' ? 'readonly' : '' %>
+                required
+                >
+            </div>
+            <% }) %>

@@ -1,0 +1,116 @@
+<button id="toggleSidebarBtn"
+    class="fixed top-4 left-0 md:left-3 z-[100] p-2 bg-white rounded-r-xl shadow-md transition-all duration-200 md:shadow-none shadow-xl">
+    <i class="fas fa-bars text-xl text-indigo-600"></i>
+</button>
+<!-- Si el usuario está autenticado -->
+<% if (isAuthenticated()) { %>
+    <!-- Overlay para móviles -->
+    <div id="overlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden md:hidden" onclick="toggleSidebar()">
+    </div>
+
+    <!-- Sidebar -->
+    <nav id="sidebar"
+        class="bg-white shadow-lg fixed top-0 left-0 z-50 w-64 h-full md:w-16 md:h-screen transform transition-transform duration-300 flex flex-col items-start justify-start pt-20 px-3 border-r overflow-hidden md:translate-x-0 -translate-x-full md:overflow-y-auto">
+
+        <div class="flex flex-col w-full space-y-4 " id="sidebar-links">
+            <a href="/"
+                class="group flex items-center gap-3 text-gray-700 hover:bg-gray-100 p-2 rounded-lg transition-all">
+                <i class="fas fa-house text-xl text-indigo-600"></i>
+                <span class="sidebar-label hidden text-sm">Inicio</span>
+            </a>
+
+            <% if (allowedUsuarios()) { %>
+                <a href="/usuarios"
+                    class="group flex items-center gap-3 text-gray-700 hover:bg-gray-100 p-2 rounded-lg transition-all">
+                    <i class="fas fa-user-group text-xl text-blue-600"></i>
+                    <span class="sidebar-label hidden  text-sm">Usuarios</span>
+                </a>
+                <% } %>
+
+                    <a href="/informacion-de-proyecto"
+                        class="group flex items-center gap-3 text-gray-700 hover:bg-gray-100 p-2 rounded-lg transition-all">
+                        <i class="fas fa-info-circle text-xl text-yellow-500"></i>
+                        <span class="sidebar-label hidden  text-sm">Proyecto</span>
+                    </a>
+
+                    <a href="/manuales"
+                        class="group flex items-center gap-3 text-gray-700 hover:bg-gray-100 p-2 rounded-lg transition-all">
+                        <i class="fas fa-book text-xl text-purple-600"></i>
+                        <span class="sidebar-label hidden  text-sm">Manuales</span>
+                    </a>
+
+                    <a href="/compartir-qr"
+                        class="group flex items-center gap-3 text-gray-700 hover:bg-gray-100 p-2 rounded-lg transition-all">
+                        <i class="fas fa-qrcode text-xl text-green-600"></i>
+                        <span class="sidebar-label hidden  text-sm">Compartir</span>
+                    </a>
+
+                    <a href="/perfil"
+                        class="group flex items-center gap-3 text-gray-700 hover:bg-gray-100 p-2 rounded-lg transition-all">
+                        <i class="fas fa-user-circle text-xl text-pink-600"></i>
+                        <span class="sidebar-label hidden  text-sm">Perfil</span>
+                    </a>
+
+                    <a href="/logout"
+                        class="group flex items-center gap-3 text-red-600 hover:bg-red-100 p-2 rounded-lg transition-all">
+                        <i class="fas fa-right-from-bracket text-xl"></i>
+                        <span class="sidebar-label hidden  text-sm">Salir</span>
+                    </a>
+        </div>
+    </nav>
+    <% } %>
+
+        <script>
+            let isSidebarOpen = false;
+            document.getElementById("toggleSidebarBtn").addEventListener("click", toggleSidebar);
+            function toggleSidebar() {
+                const sidebar = document.getElementById('sidebar');
+                const overlay = document.getElementById('overlay');
+                const mainContent = document.getElementById('main-content');
+
+                isSidebarOpen = !isSidebarOpen;
+                sidebar.classList.toggle("md:w-52", isSidebarOpen);
+                sidebar.classList.toggle("md:w-16", !isSidebarOpen);
+                const toggleBtn = document.getElementById("toggleSidebarBtn");
+                if (isSidebarOpen) {
+                    sidebar.classList.remove('-translate-x-full');
+                    if (window.innerWidth >= 768 && mainContent) {
+                        mainContent.classList.remove('ml-0');
+                        mainContent.classList.add('md:ml-52');
+                    }
+                    if (window.innerWidth < 768) {
+                        overlay.classList.remove('hidden');
+                        sidebar.classList.remove('-translate-x-full');
+                    };
+                    const labels = document.querySelectorAll('.sidebar-label');
+                    labels.forEach(label => label.classList.toggle('hidden', !isSidebarOpen));
+                    toggleBtn.classList.remove('shadow-xl');
+                } else {
+                    if (window.innerWidth >= 768 && mainContent) {
+                        mainContent.classList.remove('md:ml-52');
+                        mainContent.classList.add('ml-[50px]');
+                        const labels = document.querySelectorAll('.sidebar-label');
+                        labels.forEach(label => label.classList.toggle('hidden', !isSidebarOpen));
+                    }
+                    if (window.innerWidth < 768) {
+                        overlay.classList.add('hidden')
+                        sidebar.classList.add('-translate-x-full');
+                    };
+                    toggleBtn.classList.add('shadow-xl');
+                }
+            }
+
+
+            // Ocultar menú al hacer clic fuera en móvil
+            document.addEventListener("click", function (event) {
+                const sidebar = document.getElementById("sidebar");
+                const toggleBtn = document.getElementById("toggleSidebarBtn");
+                const overlay = document.getElementById("overlay");
+
+                if (isSidebarOpen && !sidebar.contains(event.target) && !toggleBtn.contains(event.target) && window.innerWidth < 768) {
+                    sidebar.classList.add('-translate-x-full');
+                    overlay.classList.add('hidden');
+                    isSidebarOpen = false;
+                }
+            });
+        </script>

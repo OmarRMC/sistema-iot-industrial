@@ -1,0 +1,64 @@
+<%- include('partials/header') %>
+
+    <div class="min-h-screen flex items-center justify-center bg-gray-100 px-4 py-12">
+        <div class="w-full max-w-xl bg-white p-8 rounded-xl shadow-md">
+
+            <!-- Botón volver -->
+            <a href="/usuarios"
+                class="text-sm sm:text-base font-semibold text-blue-700 hover:text-blue-900 bg-blue-100 hover:bg-blue-200 px-3 py-1 rounded flex items-center shadow-sm transition w-fit mb-4">
+                <i class="fas fa-arrow-left mr-2"></i> Volver
+            </a>
+
+            <!-- Título -->
+            <h1 class="text-xl sm:text-2xl font-semibold text-gray-800 mb-6 text-center">
+                📝 Registrar nuevo usuario
+            </h1>
+
+            <!-- Formulario de usuario -->
+            <form action="/usuario" method="POST" class="space-y-4 text-sm sm:text-base">
+                <div>
+                    <label class="block mb-1 text-gray-700">Nombre</label>
+                    <input name="nombre" required class="w-full p-3 border rounded-lg">
+                </div>
+                <div>
+                    <label class="block mb-1 text-gray-700">Apellido</label>
+                    <input name="apellido" required class="w-full p-3 border rounded-lg">
+                </div>
+                <div>
+                    <label class="block mb-1 text-gray-700">Telefono</label>
+                    <input type="text" name="telefono" required class="w-full p-3 border rounded-lg">
+                </div>
+
+                <div>
+                    <label class="block mb-1 text-gray-700">Correo</label>
+                    <input type="email" name="correo" required class="w-full p-3 border rounded-lg">
+                </div>
+                <div>
+                    <label class="block mb-1 text-gray-700">Contraseña</label>
+                    <input type="password" name="password" required class="w-full p-3 border rounded-lg">
+                </div>
+                <!-- <div>
+                    <label class="block mb-1 text-gray-700">Confirmar contraseña</label>
+                    <input type="password" name="confirmar_password" required class="w-full p-3 border rounded-lg">
+                </div> -->
+                <div>
+                    <label class="block mb-1 text-gray-700">Rol</label>
+                    <select name="rol" required class="w-full p-3 border rounded-lg">
+                        <option value="">Seleccione un rol</option>
+                        <option value="admin">Admin</option>
+                        <option value="usuario">Usuario</option>
+
+                    </select>
+                </div>
+
+                <!-- Botón registrar -->
+                <button type="submit"
+                    class="w-full flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white py-3 px-6 rounded-lg font-medium transition">
+                    <i class="fas fa-user-plus"></i> Registrar usuario
+                </button>
+            </form>
+
+        </div>
+    </div>
+
+    <%- include('partials/footer') %>

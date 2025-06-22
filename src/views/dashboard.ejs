@@ -1,0 +1,170 @@
+<%- include('partials/header') %>
+
+    <div class="max-w-6xl mx-auto px-4 py-10">
+        <h2 class="text-3xl font-bold text-gray-800 mb-10 text-center tracking-tight">
+            <i class="fas fa-microchip mr-2 text-blue-600"></i> Panel de Monitoreo PLC
+        </h2>
+
+        <!-- Estado general -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
+            <!-- Motor -->
+            <div class="bg-white shadow rounded-xl p-5 border border-gray-200">
+                <h3 class="text-lg font-semibold text-gray-700 mb-3">
+                    <i class="fas fa-cogs text-gray-500 mr-2"></i> Estado del Motor
+                </h3>
+                <div id="motorStatus" class="text-2xl font-bold text-green-600">Encendido</div>
+                <div class="flex gap-2 mt-4">
+                    <button class="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-md">
+                        <i class="fas fa-play mr-1"></i> Iniciar
+                    </button>
+                    <button class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-md">
+                        <i class="fas fa-stop mr-1"></i> Detener
+                    </button>
+                </div>
+            </div>
+
+            <!-- Válvula -->
+            <div class="bg-white shadow rounded-xl p-5 border border-gray-200">
+                <h3 class="text-lg font-semibold text-gray-700 mb-3">
+                    <i class="fas fa-water text-blue-500 mr-2"></i> Válvula
+                </h3>
+                <div id="valveStatus" class="text-2xl font-bold text-blue-600">Cerrada</div>
+                <div class="flex gap-2 mt-4">
+                    <button class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md">
+                        <i class="fas fa-door-open mr-1"></i> Abrir
+                    </button>
+                    <button class="px-4 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-md">
+                        <i class="fas fa-door-closed mr-1"></i> Cerrar
+                    </button>
+                </div>
+            </div>
+
+            <!-- Temperatura -->
+            <div class="bg-white shadow rounded-xl p-5 border border-gray-200">
+                <h3 class="text-lg font-semibold text-gray-700 mb-3">
+                    <i class="fas fa-thermometer-half text-orange-500 mr-2"></i> Temperatura
+                </h3>
+                <div id="temperature" class="text-4xl font-bold text-orange-600">25.3 °C</div>
+            </div>
+
+            <!-- pH -->
+            <div class="bg-white shadow rounded-xl p-5 border border-gray-200">
+                <h3 class="text-lg font-semibold text-gray-700 mb-3">
+                    <i class="fas fa-vial text-purple-600 mr-2"></i> Nivel de pH
+                </h3>
+                <div id="phValue" class="text-4xl font-bold text-purple-600">7.1</div>
+            </div>
+
+            <!-- Nivel bajo -->
+            <div class="bg-white shadow rounded-xl p-5 border border-gray-200">
+                <h3 class="text-lg font-semibold text-gray-700 mb-3">
+                    <i class="fas fa-arrow-down text-sky-600 mr-2"></i> Sensor Nivel Bajo
+                </h3>
+                <div id="lowLevel" class="text-xl font-bold text-slate-600">Detectado</div>
+            </div>
+
+            <!-- Nivel alto -->
+            <div class="bg-white shadow rounded-xl p-5 border border-gray-200">
+                <h3 class="text-lg font-semibold text-gray-700 mb-3">
+                    <i class="fas fa-arrow-up text-sky-600 mr-2"></i> Sensor Nivel Alto
+                </h3>
+                <div id="highLevel" class="text-xl font-bold text-slate-600">No detectado</div>
+            </div>
+        </div>
+
+        <!-- Estado global del sistema -->
+        <div class="bg-white shadow border border-gray-200 rounded-xl p-6 text-center">
+            <h3 class="text-lg font-semibold text-gray-700 mb-2">
+                <i class="fas fa-circle-notch text-gray-600 mr-2"></i> Estado del Sistema
+            </h3>
+            <div id="systemStatus" class="text-2xl font-bold text-green-500">Activo</div>
+        </div>
+    </div>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyB41svdnDLDUDTotvn8N0TVfVeNWgG9ypk",
+            authDomain: "base-datos-iot-50cb4.firebaseapp.com",
+            databaseURL: "https://base-datos-iot-50cb4-default-rtdb.firebaseio.com",
+            projectId: "base-datos-iot-50cb4",
+            storageBucket: "base-datos-iot-50cb4.firebasestorage.app",
+            messagingSenderId: "522493704609",
+            appId: "1:522493704609:web:13686733b75bdb9f7c73e0"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+
+        const refs = {
+            motor: db.ref("plc/motor"),
+            valve: db.ref("plc/valvula"),
+            temp: db.ref("plc/temperatura"),
+            ph: db.ref("plc/ph"),
+            nivelBajo: db.ref("plc/nivel_bajo"),
+            nivelAlto: db.ref("plc/nivel_alto"),
+            estado: db.ref("plc/estado_sistema")
+        };
+
+        // Actualizar DOM cuando cambian los valores
+        refs.motor.on("value", (snap) => {
+            const estado = snap.val();
+            document.getElementById("motorStatus").textContent = estado ? "Encendido" : "Apagado";
+            document.getElementById("motorStatus").className = "text-2xl font-bold " + (estado ? "text-green-600" : "text-red-600");
+        });
+
+        refs.valve.on("value", (snap) => {
+            const estado = snap.val();
+            document.getElementById("valveStatus").textContent = estado ? "Abierta" : "Cerrada";
+            document.getElementById("valveStatus").className = "text-2xl font-bold " + (estado ? "text-blue-600" : "text-gray-600");
+        });
+
+        refs.temp.on("value", (snap) => {
+            document.getElementById("temperature").textContent = snap.val() + " °C";
+        });
+
+        refs.ph.on("value", (snap) => {
+            document.getElementById("phValue").textContent = snap.val();
+        });
+
+        refs.nivelBajo.on("value", (snap) => {
+            document.getElementById("lowLevel").textContent = snap.val() ? "Detectado" : "No detectado";
+        });
+
+        refs.nivelAlto.on("value", (snap) => {
+            document.getElementById("highLevel").textContent = snap.val() ? "Detectado" : "No detectado";
+        });
+
+        refs.estado.on("value", (snap) => {
+            const val = snap.val();
+            const el = document.getElementById("systemStatus");
+            el.textContent = val ? "Encendido el sistema" : "Apagado el sistema";
+            el.className = "text-2xl font-bold " + (
+                val ? "text-green-600" :
+                    "text-gray-600"
+            );
+        });
+
+        document.querySelectorAll("button").forEach(btn => {
+            btn.addEventListener("click", () => {
+                const action = btn.textContent.toLowerCase().trim();
+
+                switch (action) {
+                    case "iniciar":
+                        refs.motor.set(true);
+                        break;
+                    case "detener":
+                        refs.motor.set(false);
+                        break;
+                    case "abrir":
+                        refs.valve.set(true);
+                        break;
+                    case "cerrar":
+                        refs.valve.set(false);
+                        break;
+                }
+            });
+        });
+    </script>
+
+    <%- include('partials/footer') %>

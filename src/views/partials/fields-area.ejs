@@ -1,0 +1,39 @@
+
+<% const today=new Date().toISOString().split('T')[0]; %>
+<div>
+    <label class="block text-gray-600 mb-1">Nombre Unidad/Área</label>
+    <input name="nombre" type="text" class="w-full p-3 border rounded-lg"
+        value="<%= area && area['nombre'] ? area['nombre'] : '' %>" required>
+</div>
+
+<div>
+    <label class="block text-gray-600 mb-1">Descripción</label>
+    <input name="descripcion" type="text" class="w-full p-3 border rounded-lg"
+        value="<%= area && area['descripcion'] ? area['descripcion'] : '' %>">
+</div>
+
+<div>
+    <label class="block text-gray-600 mb-1">Responsable</label>
+    <input name="responsable" type="text" class="w-full p-3 border rounded-lg"
+        value="<%= area && area['responsable'] ? area['responsable'] : '' %>">
+</div>
+
+<div>
+    <label class="block text-gray-600 mb-1">Ubicación Área</label>
+    <input name="ubicacion" type="text" class="w-full p-3 border rounded-lg"
+        value="<%= area && area['ubicacion'] ? area['ubicacion'] : '' %>">
+</div>
+
+<div>
+    <label class="block text-gray-600 mb-1">Unidad</label>
+    <input name="unidad" type="text" class="w-full p-3 border rounded-lg"
+        value="<%= area && area['unidad'] ? area['unidad'] : '' %>">
+</div>
+
+<div>
+    <label class="block text-gray-600 mb-1">Fecha de registro</label>
+    <input name="fecha_registro" type="date" class="w-full p-3 border rounded-lg"
+        value="<%= area && area['fecha_registro'] ? area['fecha_registro'] : today %>"
+        readonly
+        >
+</div>

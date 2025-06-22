@@ -1,0 +1,45 @@
+<%- include('partials/header') %>
+
+    <div class="flex flex-col items-center justify-start min-h-screen py-6 px-4 bg-gray-100">
+        <h1 class="text-2xl font-bold mb-4 text-center">Escanear Código QR</h1>
+
+        <div id="reader" class="w-full max-w-sm border rounded shadow mb-4"></div>
+        <p id="result" class="text-center text-gray-700"></p>
+
+        <a href="/equipos" class="mt-6 text-blue-600 hover:underline text-sm">Volver al listado de productos</a>
+    </div>
+
+    <!-- Librería para escanear QR -->
+    <script src="https://unpkg.com/html5-qrcode"></script>
+
+    <!-- Script de escaneo -->
+    <script>
+        const resultElement = document.getElementById('result');
+        let scanned = false;
+        function onScanSuccess(decodedText, decodedResult) {
+            if (!scanned) {
+                scanned = true;
+                resultElement.innerText = `Redirigiendo a: ${decodedText}`;
+                setTimeout(() => {
+                    window.location.href = `${decodedText}`;
+                }, 500); // pequeño retraso opcional
+            }
+        }
+
+        function onScanError(errorMessage) {
+            // Puedes ignorar los errores o mostrarlos si lo deseas
+            // console.warn(errorMessage);
+        }
+
+        const html5QrCode = new Html5Qrcode("reader");
+        html5QrCode.start(
+            { facingMode: "environment" }, // cámara trasera
+            {
+                fps: 10,
+                qrbox: 250
+            },
+            onScanSuccess,
+            onScanError
+        );
+    </script>
+    <%- include('partials/footer') %>

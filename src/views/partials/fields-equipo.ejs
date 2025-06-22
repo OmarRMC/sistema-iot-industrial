@@ -1,0 +1,53 @@
+<% const campos=[['codigo_hospitalario', 'Código Hospitalario' ], ['nombre', 'Equipo' ], ['marca', 'Marca' ],
+    ['modelo', 'Modelo' ], ['serie_fabricante', 'Serie de fabricante' ], ['empresa_responsable', 'Empresa Responsable'
+    ], ['responsable', 'Responsable' ], ['anio_fabricacion', 'Año de fabricación' , 'number' ],
+    ['anio_adquisicion', 'Año de adquisición' , 'number' ], ['garantia', 'Garantía' , 'number' ],
+    ['fecha_puesta_marcha', 'Fecha puesta en marcha / Garantía' , 'date' ], ['gestion_equipos', 'Gestión Equipos' ],
+    ['estado', 'Estado' ], ['imp', 'IMP' ], ['costo_mp', 'Costo MP' , 'number' ], ['mc', 'MC' ], ['costo_mc', 'Costo MC'
+    , 'number' ], ['fecha_mantenimiento', 'Fecha último mantenimiento' , 'date' ],
+    ['ultimo_repuesto', 'Último repuesto cambiado' ], ['frecuencia_uso', 'Frecuencia de uso' ] ]; %>
+
+    <% campos.forEach(([name, label, type='text' ])=> { %>
+        <div>
+            <label class="block text-gray-600 mb-1">
+                <%= label %>
+            </label>
+            <input name="<%= name %>" type="<%= type %>" value="<%= equipo && equipo[name] ? equipo[name] : '' %>"
+                class="w-full p-3 border rounded-lg" <%=!equipo ? 'required' : '' %>
+            >
+        </div>
+        <% }) %>
+
+            <div>
+                <label class="block text-gray-600 mb-1">Observaciones</label>
+                <textarea name="observaciones" rows="3"
+                    class="w-full p-3 border rounded-lg"><%= equipo ? equipo.observaciones : '' %></textarea>
+            </div>
+
+            <!-- PDF -->
+            <div>
+                <label class="block mb-1 font-medium text-gray-600">PDF del equipo:</label>
+                <input type="file" name="pdf" accept="application/pdf"
+                    class="w-full border p-2 rounded-lg file:mr-4 file:py-2 file:px-4 file:border-0 file:bg-blue-600 file:text-white file:rounded-lg hover:file:bg-blue-700">
+                <% if (equipo && equipo.ficha_pdf) { %>
+                    <p class="text-sm mt-2 text-gray-600">
+                        Archivo actual:
+                        <a href="/uploads/<%= equipo.ficha_pdf %>" target="_blank"
+                            class="text-blue-600 underline hover:text-blue-800">Ver ficha actual</a>
+                    </p>
+                    <% } %>
+            </div>
+
+            <!-- Imagen -->
+            <div>
+                <label class="block mb-1 font-medium text-gray-600">Fotografía:</label>
+                <input type="file" name="imagen" accept="image/*"
+                    class="w-full border p-2 rounded-lg file:mr-4 file:py-2 file:px-4 file:border-0 file:bg-blue-600 file:text-white file:rounded-lg hover:file:bg-blue-700">
+                <% if (equipo && equipo.imagen) { %>
+                    <div class="mt-2">
+                        <p class="text-sm text-gray-600 mb-1">Imagen actual:</p>
+                        <img src="<%= equipo.imagen %>" alt="Imagen actual"
+                            class="w-20 h-20 object-cover rounded shadow">
+                    </div>
+                    <% } %>
+            </div>

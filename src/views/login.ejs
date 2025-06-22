@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Login - <%= title %>
+    </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Imagen de fondo para móviles */
+        @media (max-width: 767px) {
+            body {
+                background-image: url('/baner.jpg');
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+            }
+        }
+    </style>
+</head>
+
+<body class="min-h-screen flex items-center justify-center bg-gray-100 md:bg-gray-100">
+    <div class="flex flex-col md:flex-row bg-white/0 md:bg-white rounded-xl shadow-lg overflow-hidden w-full max-w-5xl">
+        <!-- Columna Izquierda - Imagen (solo en pantallas grandes) -->
+        <div class="hidden md:block md:w-1/2">
+            <img src="/baner.jpg" alt="Ingreso Internaciones" class="object-cover w-full h-full">
+        </div>
+
+        <!-- Formulario -->
+        <div class="relative w-fit m-auto md:w-1/2 p-6 sm:p-10 flex flex-col justify-center bg-white rounded-lg shadow-lg">
+            <% if (error) { %>
+                <div class="absolute top-2 right-2 mb-4 p-3 text-sm text-red-700 bg-red-100 border border-red-300 rounded">
+                    Correo o contraseña inválidos. Intenta nuevamente.
+                </div>
+                <% } %>
+                    <div class="flex justify-center mb-4">
+                        <img src="/logo.jpg" alt="Logo Hospital del Norte" class="w-28 h-28">
+                    </div>
+                    <h2 class="text-2xl sm:text-3xl font-bold text-center text-gray-800 mb-4"> SISTEMA APLICADA AL AUTOMATIZACION </h2>
+                    <p class="text-center text-gray-600 mb-6">Ingresa tu correo y contraseña</p>
+
+                    <form method="POST" action="/login" class="space-y-5">
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Usuario</label>
+                            <input name="email" type="email" placeholder="Ingresa tu usuario" required
+                                class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" />
+                        </div>
+                        <div>
+                            <label for="password"
+                                class="block text-sm font-medium text-gray-700 mb-1">Contraseña</label>
+                            <input name="password" type="password" placeholder="Ingresa tu contraseña" required
+                                class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" />
+                        </div>
+                        <button type="submit"
+                            class="w-full py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition duration-200">
+                            ACCEDER
+                        </button>
+                    </form>
+        </div>
+    </div>
+</body>
+
+</html>

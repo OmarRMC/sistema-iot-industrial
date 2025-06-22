@@ -1,0 +1,70 @@
+<%- include('partials/header') %>
+
+    <div class="max-w-7xl mx-auto px-4 py-10">
+
+        <!-- Encabezado + Botón Nuevo Usuario -->
+        <div class="flex justify-between items-center mb-6">
+            <h1 class="text-2xl sm:text-3xl font-semibold text-gray-800 flex items-center gap-2">
+                <i class="fas fa-users text-blue-500"></i>
+                Usuarios Registrados
+            </h1>
+            <a href="/usuario/nuevo"
+                class="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg shadow-sm transition">
+                <i class="fas fa-user-plus"></i> Nuevo usuario
+            </a>
+        </div>
+
+        <!-- Tabla -->
+        <div class="overflow-x-auto bg-white rounded-lg shadow border border-gray-200">
+            <table class="min-w-full text-sm text-left text-gray-700">
+                <thead class="bg-gray-100 text-gray-600 uppercase text-xs tracking-wider">
+                    <tr>
+                        <th class="px-6 py-3">Nombre</th>
+                        <th class="px-6 py-3">Apellido</th>
+                        <th class="px-6 py-3">Correo</th>
+                        <th class="px-6 py-3">Telefono</th>
+                        <th class="px-6 py-3">Rol</th>
+                        <th class="px-6 py-3">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-100">
+                    <% usuarios.forEach(u=> { %>
+                        <tr class="hover:bg-gray-50 transition">
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <%= u.nombre %>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <%= u.apellido %>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <%= u.correo %>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <%= u.telefono %>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <%= u.rol %>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="flex gap-3">
+                                    <a href="/usuario/<%= u.id %>/editar"
+                                        class="text-yellow-500 hover:text-yellow-600 transition" title="Editar">
+                                        <i class="fas fa-pen-to-square text-base"></i>
+                                    </a>
+                                    <form action="/usuario/<%= u.id %>/eliminar?_method=DELETE" method="POST"
+                                        onsubmit="return confirm('¿Estás seguro de eliminar este usuario?');">
+                                        <button type="submit" class="text-red-500 hover:text-red-600 transition"
+                                            title="Eliminar">
+                                            <i class="fas fa-trash text-base"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        <% }) %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <%- include('partials/footer') %>

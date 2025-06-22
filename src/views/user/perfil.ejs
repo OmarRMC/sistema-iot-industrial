@@ -1,0 +1,77 @@
+<%- include('../partials/header') %>
+    <div class="max-w-5xl mx-auto px-4 py-12">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div class="bg-white rounded-2xl shadow border border-gray-200 p-6 flex flex-col items-center">
+                <img src="<%= user.foto ? user.foto : '/profile.jpg' %>"
+                    class="w-28 h-28 object-cover rounded-full border shadow-sm" alt="Foto de perfil">
+
+                <span class="mt-4 text-sm text-slate-600 font-medium uppercase tracking-wide">
+                    <%= user.rol %>
+                </span>
+
+                <div class="mt-6 w-full space-y-3 text-sm text-gray-700">
+                    <div class="flex justify-between border-b py-1">
+                        <span class="font-medium text-slate-600">Nombre:</span>
+                        <span>
+                            <%= user.nombre %>
+                                <%= user.apellido %>
+                        </span>
+                    </div>
+                    <div class="flex justify-between border-b py-1">
+                        <span class="font-medium text-slate-600">Apellido:</span>
+                        <span>
+                            <%= user.apellido %>
+                        </span>
+                    </div>
+                    <div class="flex justify-between border-b py-1">
+                        <span class="font-medium text-slate-600">Correo:</span>
+                        <span>
+                            <%= user.correo %>
+                        </span>
+                    </div>
+                    <div class="flex justify-between border-b py-1">
+                        <span class="font-medium text-slate-600">Teléfono:</span>
+                        <span>
+                            <%= user.telefono %>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Formulario de contraseña -->
+            <div class="bg-white rounded-2xl shadow border border-gray-200 p-6">
+                <h2 class="text-lg font-semibold text-slate-800 mb-4 border-b pb-2">Cambiar contraseña</h2>
+
+                <% if (typeof error !=='undefined' && error) { %>
+                    <div class="mb-4 p-3 rounded-md bg-red-50 border border-red-200 text-red-700 text-sm">
+                        <%= error %>
+                    </div>
+                    <% } %>
+
+                        <% if (typeof success !=='undefined' && success) { %>
+                            <div
+                                class="mb-4 p-3 rounded-md bg-emerald-50 border border-emerald-200 text-emerald-700 text-sm">
+                                <%= success %>
+                            </div>
+                            <% } %>
+
+                                <form action="/perfil/password" method="POST" class="space-y-4">
+                                    <input type="password" name="actual" placeholder="Contraseña actual"
+                                        class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-300 focus:outline-none text-sm">
+
+                                    <input type="password" name="nueva" placeholder="Nueva contraseña"
+                                        class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-300 focus:outline-none text-sm">
+
+                                    <input type="password" name="confirmar" placeholder="Confirmar nueva contraseña"
+                                        class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-300 focus:outline-none text-sm">
+
+                                    <button type="submit"
+                                        class="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium text-sm rounded-md transition">
+                                        Guardar cambios
+                                    </button>
+                                </form>
+            </div>
+        </div>
+    </div>
+
+    <%- include('../partials/footer') %>

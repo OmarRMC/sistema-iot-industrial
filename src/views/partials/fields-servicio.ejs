@@ -1,0 +1,35 @@
+<% const today=new Date().toISOString().split('T')[0]; %>
+
+    <% const campos=[ ['fecha_entrega', 'Fecha de Entrega' , 'date' ], ['procedimientos', 'Procedimientos Realizados' ],
+        ['diagnostico', 'Diagnóstico Previo' ], ['estado_equipo', 'Estado del Equipo' ],
+        ['trabajo_realizado', 'Trabajo Realizado' ]]; %>
+
+        <% campos.forEach(([name, label, type='text' ])=> { %>
+            <div>
+                <label class="block text-gray-600 mb-1">
+                    <%= label %>
+                </label>
+                <input name="<%= name %>" type="<%= type %>" class="w-full p-3 border rounded-lg"
+                    value="<%= servicio && servicio[name] ? servicio[name] : (name === 'fecha_entrega' ? today : '') %>"
+                    <%=name==='fecha_entrega' ? 'readonly' : '' %>
+                required
+                >
+            </div>
+            <% }) %>
+                <div>
+                    <label class="block text-gray-600 mb-1">Repuestos Utilizados</label>
+                    <textarea name="repuestos" rows="3"
+                        class="w-full p-3 border rounded-lg"><%= servicio ? servicio.repuestos : '' %></textarea>
+                </div>
+                <div>
+                    <label class="block text-gray-600 mb-1">Tipo de Mantenimiento</label>
+                    <select name="tipo_mantenimiento" class="w-full p-3 border rounded-lg" required>
+                        <option value="">Selecciona una opción</option>
+                        <option value="PREVENTIVO" <%=servicio.tipo_mantenimiento==='PREVENTIVO' ? 'selected' : '' %>
+                            >PREVENTIVO
+                        </option>
+                        <option value="CORRECTIVO" <%=servicio.tipo_mantenimiento==='CORRECTIVO' ? 'selected' : '' %>
+                            >CORRECTIVO
+                        </option>
+                    </select>
+                </div>
