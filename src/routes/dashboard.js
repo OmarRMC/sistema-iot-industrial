@@ -1,6 +1,5 @@
 import express from 'express';
-import { getAllUsuarios, getUsuarioById, createUsuario, updateUsuario, deleteUsuario, actualizarPasswordUsuario } from '../repository/usuario.js';
-
+import QRCode from 'qrcode'
 const router = express.Router();
 
 router.get('/', async (req, res) => {
@@ -15,4 +14,13 @@ router.get('/manuales', (req, res) => {
     res.render('manuales', { title: 'Manuales' });
 });
 
+
+router.get('/qr', async (req, res) => {
+    const dominio = `${req.protocol}://${req.get('host')}`;
+    const qr = await QRCode.toDataURL(dominio);
+    if (!qr) {
+        return res.status(500).send('Error al generar el código QR');
+    }
+    res.render('qr-generado', { qr, title: 'Código QR de la pagina' });
+});
 export default router;

@@ -1,25 +1,27 @@
-<!DOCTYPE html>
-<html lang="es">
+<%- include('partials/header') %>
 
-<head>
-    <meta charset="UTF-8">
-    <title>QR generado</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
+    <div class="max-w-xl mx-auto px-4 py-12">
+        <div class="bg-white border border-gray-200 shadow-md rounded-2xl p-6 text-center">
 
-<body class="bg-gray-100 flex flex-col items-center justify-center min-h-screen px-4">
-    <h1 class="text-xl sm:text-2xl font-bold mb-6 text-center">Código QR del equipo</h1>
+            <!-- Título -->
+            <h1 class="text-2xl font-bold text-gray-800 mb-6 flex items-center justify-center gap-2">
+                <i class="fas fa-qrcode text-blue-600 text-2xl"></i>
+                Código QR
+            </h1>
 
-    <!-- Imagen QR -->
-    <img id="qrImage" src="<%= qr %>" alt="QR" class="mb-6 border rounded shadow w-3/4 sm:w-64 max-w-xs">
+            <!-- Imagen QR (tamaño intermedio) -->
+            <div class="flex justify-center mb-6">
+                <img id="qrImage" src="<%= qr %>" alt="Código QR"
+                    class="border border-gray-300 rounded-lg shadow-lg w-64 h-64 object-contain">
+            </div>
 
-    <!-- Botón de descarga -->
-    <a id="downloadBtn" href="<%= qr %>" download="<%= equipo?.nombre %>.png"
-        class="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 transition mb-6 w-full max-w-xs text-center">
-        Descargar QR
-    </a>
-    <a href="/equipos" class="text-blue-600 hover:underline text-sm text-center">Volver al listado de productos</a>
-</body>
+            <!-- Botón de descarga -->
+            <a id="downloadBtn" href="<%= qr %>" download="qr.png"
+                class="inline-flex items-center justify-center gap-2 px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md transition w-full max-w-xs mx-auto">
+                <i class="fas fa-download"></i>
+                Descargar QR
+            </a>
+        </div>
+    </div>
 
-</html>
+    <%- include('partials/footer') %>
