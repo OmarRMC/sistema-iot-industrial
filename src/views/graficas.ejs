@@ -82,15 +82,28 @@
             }
         });
 
+        function formatTime(dateIn) {
+            if (!dateIn) {
+                return null;
+            }
+            const date = new Date(dateIn);
+            const time = date.toLocaleTimeString('en-GB', {
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: false
+            });
+            return time;
+        }
+
         // Función para actualizar los datos y mantener solo los últimos 10
-        function updateChart(chart, dataArray, value) {
-            const now = new Date().toLocaleTimeString();
+        function updateChart(chart, dataArray, value, time) {
+            const now = time ?? new Date().toLocaleTimeString();
             if (dataArray.length >= 10) {
                 dataArray.shift();
                 chart.data.labels.shift();
                 chart.data.datasets[0].data.shift();
             }
-            dataArray.push(value);
+            dataArray.push({ value, now });
             chart.data.labels.push(now);
             chart.data.datasets[0].data.push(value);
             chart.update();
@@ -98,13 +111,35 @@
 
         // Escuchar cambios en temperatura
         db.ref("tem").limitToLast(1).on("child_added", (snap) => {
-            updateChart(tempChart, tempData, snap.val());
+            const value = snap.val();
+            const time = formatTime(value.tiempo)
+            updateChart(tempChart, tempData, value.tem, time);
         });
 
         // Escuchar cambios en ph
         db.ref("ph").limitToLast(1).on("child_added", (snap) => {
-            updateChart(phChart, phData, snap.val());
+            const value = snap.val();
+            const time = formatTime(value.tiempo)
+            updateChart(phChart, phData, value.ph, time);
         });
+
+
+        db.ref("tem").limitToLast(10).once("value", snap => {
+            snap.forEach(child => {
+                const value = child.val();
+                const time = formatTime(value.tiempo)
+                updateChart(tempChart, tempData, value.tem, time);
+            });
+        })
+
+        db.ref("ph").limitToLast(10).once("value", snap => {
+            snap.forEach(child => {
+                const value = child.val();
+                const time = formatTime(value.tiempo)
+                updateChart(phChart, phData, value.ph, time);
+            });
+        })
+
     </script>
 
 
