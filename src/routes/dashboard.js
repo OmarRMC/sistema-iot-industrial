@@ -23,4 +23,8 @@ router.get('/qr', async (req, res) => {
     }
     res.render('qr-generado', { qr, title: 'Código QR de la pagina' });
 });
+
+router.get('/graficas', async (req, res) => {
+    res.render('graficas', { title: 'Graficas historicos' });
+})
 export default router;

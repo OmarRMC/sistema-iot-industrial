@@ -1,0 +1,111 @@
+<%- include('partials/header') %>
+
+    <div class="max-w-6xl mx-auto px-4 py-10">
+        <div class="max-w-6xl mx-auto px-4 py-10">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6">📊 Gráficas en Tiempo Real</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Temperatura -->
+                <div class="bg-white rounded-xl border shadow p-4">
+                    <h3 class="text-gray-700 font-semibold mb-3">Temperatura</h3>
+                    <canvas id="tempChart" height="180"></canvas>
+                </div>
+
+                <!-- pH -->
+                <div class="bg-white rounded-xl border shadow p-4">
+                    <h3 class="text-gray-700 font-semibold mb-3">pH</h3>
+                    <canvas id="phChart" height="180"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK y Chart.js -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        // Configuración de Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyB41svdnDLDUDTotvn8N0TVfVeNWgG9ypk",
+            authDomain: "base-datos-iot-50cb4.firebaseapp.com",
+            databaseURL: "https://base-datos-iot-50cb4-default-rtdb.firebaseio.com",
+            projectId: "base-datos-iot-50cb4",
+            storageBucket: "base-datos-iot-50cb4.firebasestorage.app",
+            messagingSenderId: "522493704609",
+            appId: "1:522493704609:web:13686733b75bdb9f7c73e0"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+
+        // Inicialización de los arrays
+        let tempData = [];
+        let phData = [];
+
+        // Inicializar gráficas
+        const tempChart = new Chart(document.getElementById("tempChart"), {
+            type: "line",
+            data: {
+                labels: [],
+                datasets: [{
+                    label: "Temperatura (°C)",
+                    data: [],
+                    borderColor: "rgba(255, 99, 132, 1)",
+                    backgroundColor: "rgba(255, 99, 132, 0.2)",
+                    fill: true,
+                    tension: 0.3
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { display: false } }
+            }
+        });
+
+        const phChart = new Chart(document.getElementById("phChart"), {
+            type: "line",
+            data: {
+                labels: [],
+                datasets: [{
+                    label: "pH",
+                    data: [],
+                    borderColor: "rgba(54, 162, 235, 1)",
+                    backgroundColor: "rgba(54, 162, 235, 0.2)",
+                    fill: true,
+                    tension: 0.3
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { display: false } },
+            }
+        });
+
+        // Función para actualizar los datos y mantener solo los últimos 10
+        function updateChart(chart, dataArray, value) {
+            const now = new Date().toLocaleTimeString();
+            if (dataArray.length >= 10) {
+                dataArray.shift();
+                chart.data.labels.shift();
+                chart.data.datasets[0].data.shift();
+            }
+            dataArray.push(value);
+            chart.data.labels.push(now);
+            chart.data.datasets[0].data.push(value);
+            chart.update();
+        }
+
+        // Escuchar cambios en temperatura
+        db.ref("tem").limitToLast(1).on("child_added", (snap) => {
+            updateChart(tempChart, tempData, snap.val());
+        });
+
+        // Escuchar cambios en ph
+        db.ref("ph").limitToLast(1).on("child_added", (snap) => {
+            updateChart(phChart, phData, snap.val());
+        });
+    </script>
+
+
+    <%- include('partials/footer') %>
