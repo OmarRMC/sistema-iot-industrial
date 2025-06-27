@@ -10,20 +10,31 @@
                     <canvas id="tempChart" height="180"></canvas>
                 </div>
 
+                <div class="text-right">
+                    <button onclick="exportarExcelPorFecha()"
+                        class="inline-flex items-center bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition shadow-sm">
+                        <i class="fas fa-file-excel text-white text-lg mr-2"></i>
+                        Descargar reporte Excel
+                    </button>
+                </div>
                 <!-- pH -->
-                <div class="bg-white rounded-xl border shadow p-4">
+                <!-- <div class="bg-white rounded-xl border shadow p-4">
                     <h3 class="text-gray-700 font-semibold mb-3">Corriente</h3>
                     <canvas id="phChart" height="180"></canvas>
-                </div>
+                </div> -->
             </div>
         </div>
+
+
+
+
     </div>
 
     <!-- Firebase SDK y Chart.js -->
     <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script>
         function formatearDecimales(numero, decimales = 2) {
             return parseFloat(numero).toFixed(decimales);
@@ -143,7 +154,31 @@
             });
         })
 
+        function exportarExcelPorFecha() {
+
+            db.ref("tem").limitToLast(500).once("value", snapshot => {
+                const datosFiltrados = [];
+
+                snapshot.forEach(child => {
+                    const data = child.val();
+                    console.log(data.tem)
+                    console.log(data.tiempo)
+                    const fecha = new Date(data.tiempo);
+                    datosFiltrados.push({
+                        Fecha: fecha.toLocaleString(),
+                        Temperatura: `${formatearDecimales(data.tem)} °C`
+                    });
+                    // }
+                });
+
+                const ws = XLSX.utils.json_to_sheet(datosFiltrados);
+                const wb = XLSX.utils.book_new();
+                XLSX.utils.book_append_sheet(wb, ws, "Datos Temperatura");
+
+
+                XLSX.writeFile(wb, "reporte_temperaturas.xlsx");
+            });
+        }
+        // document.getElementById('Filtrar').addEventListener('click', exportarExcelPorFecha);
     </script>
-
-
     <%- include('partials/footer') %>

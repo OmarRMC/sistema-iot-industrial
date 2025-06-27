@@ -8,23 +8,25 @@
         <!-- Estado general -->
         <div id="dashboard" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
             <!-- Motor -->
-            <div class="bg-white shadow rounded-xl p-5 border border-gray-200">
-                <h3 class="text-lg font-semibold text-gray-700 mb-3">
-                    <i class="fas fa-cogs text-gray-500 mr-2"></i> Estado del sistema
-                </h3>
-                <!-- <div id="motorStatus" class="text-2xl font-bold text-green-600">...</div> -->
-                <div class="flex gap-2 mt-4">
-                    <button class="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-md">
-                        <i class="fas fa-play mr-1"></i> Iniciar 
-                    </button>
-                    <button class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-md">
-                        <i class="fas fa-stop mr-1"></i> Detener
-                    </button>
+            <% if (isAdmin()) { %>
+                <div class="bg-white shadow rounded-xl p-5 border border-gray-200">
+                    <h3 class="text-lg font-semibold text-gray-700 mb-3">
+                        <i class="fas fa-cogs text-gray-500 mr-2"></i> Estado del sistema
+                    </h3>
+                    <!-- <div id="motorStatus" class="text-2xl font-bold text-green-600">...</div> -->
+                    <div class="flex gap-2 mt-4">
+                        <button class="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-md">
+                            <i class="fas fa-play mr-1"></i> Iniciar
+                        </button>
+                        <button class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-md">
+                            <i class="fas fa-stop mr-1"></i> Detener
+                        </button>
+                    </div>
                 </div>
-            </div>
+                <% } %>
 
-            <!-- Válvula -->
-            <!-- <div class="bg-white shadow rounded-xl p-5 border border-gray-200">
+                    <!-- Válvula -->
+                    <!-- <div class="bg-white shadow rounded-xl p-5 border border-gray-200">
                 <h3 class="text-lg font-semibold text-gray-700 mb-3">
                     <i class="fas fa-water text-blue-500 mr-2"></i> Válvula
                 </h3>
@@ -39,37 +41,37 @@
                 </div>
             </div> -->
 
-            <!-- Temperatura -->
-            <div class="bg-white shadow rounded-xl p-5 border border-gray-200">
-                <h3 class="text-lg font-semibold text-gray-700 mb-3">
-                    <i class="fas fa-thermometer-half text-orange-500 mr-2"></i> Temperatura
-                </h3>
-                <div id="temperature" class="text-4xl font-bold text-orange-600"> </div>
-            </div>
+                    <!-- Temperatura -->
+                    <div class="bg-white shadow rounded-xl p-5 border border-gray-200">
+                        <h3 class="text-lg font-semibold text-gray-700 mb-3">
+                            <i class="fas fa-thermometer-half text-orange-500 mr-2"></i> Temperatura
+                        </h3>
+                        <div id="temperature" class="text-4xl font-bold text-orange-600"> </div>
+                    </div>
 
-            <!-- pH -->
-            <div class="bg-white shadow rounded-xl p-5 border border-gray-200">
-                <h3 class="text-lg font-semibold text-gray-700 mb-3">
-                    <i class="fas fa-bolt text-yellow-500 mr-2"></i> Consumo de corriente
-                </h3>
-                <div id="phValue" class="text-4xl font-bold text-purple-600"> </div>
-            </div>
+                    <!-- capacitivo -->
+                    <div class="bg-white shadow rounded-xl p-5 border border-gray-200">
+                        <h3 class="text-lg font-semibold text-gray-700 mb-3">
+                            <i class="fas fa-microchip text-blue-500 mr-2"></i> Estado del sensor capacitivo
+                        </h3>
+                        <div id="capacitivo" class="text-4xl font-bold text-purple-600"></div>
+                    </div>
 
-            <!-- Nivel bajo -->
-            <div class="bg-white shadow rounded-xl p-5 border border-gray-200">
-                <h3 class="text-lg font-semibold text-gray-700 mb-3">
-                    <i class="fas fa-arrow-down text-sky-600 mr-2"></i> Sensor Nivel Bajo
-                </h3>
-                <div id="lowLevel" class="text-xl font-bold text-slate-600"> </div>
-            </div>
+                    <!-- Nivel bajo -->
+                    <div class="bg-white shadow rounded-xl p-5 border border-gray-200">
+                        <h3 class="text-lg font-semibold text-gray-700 mb-3">
+                            <i class="fas fa-arrow-down text-sky-600 mr-2"></i> Sensor Nivel Bajo
+                        </h3>
+                        <div id="lowLevel" class="text-xl font-bold text-slate-600"> </div>
+                    </div>
 
-            <!-- Nivel alto -->
-            <div class="bg-white shadow rounded-xl p-5 border border-gray-200">
-                <h3 class="text-lg font-semibold text-gray-700 mb-3">
-                    <i class="fas fa-arrow-up text-sky-600 mr-2"></i> Sensor Nivel Alto
-                </h3>
-                <div id="highLevel" class="text-xl font-bold text-slate-600"> </div>
-            </div>
+                    <!-- Nivel alto -->
+                    <div class="bg-white shadow rounded-xl p-5 border border-gray-200">
+                        <h3 class="text-lg font-semibold text-gray-700 mb-3">
+                            <i class="fas fa-arrow-up text-sky-600 mr-2"></i> Sensor Nivel Alto
+                        </h3>
+                        <div id="highLevel" class="text-xl font-bold text-slate-600"> </div>
+                    </div>
         </div>
 
         <!-- Estado global del sistema -->
@@ -81,11 +83,11 @@
         </div>
         <br>
         <!-- Estado global del sistema -->
-        <div class="col-span-3 mb-4">
+        <!-- <div class="col-span-3 mb-4">
             <div class="text-right text-sm font-semibold text-gray-600">
                 Modo de Operación: <span id="modoAutomatico" class="text-blue-600">Cargando...</span>
             </div>
-        </div>
+        </div> -->
     </div>
     <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
@@ -110,7 +112,7 @@
             motor: db.ref("plc/motor"),
             valve: db.ref("plc/valvula"),
             temp: db.ref("plc/tem"),
-            ph: db.ref("plc/ph"),
+            capacitivo: db.ref("plc/capacitivo"),
             nivelBajo: db.ref("plc/nivel_bajo"),
             nivelAlto: db.ref("plc/nivel_alto"),
             estado: db.ref("plc/estado_sistema"),
@@ -134,16 +136,18 @@
             document.getElementById("temperature").textContent = formatearDecimales(snap.val()) + " °C";
         });
 
-        refs.ph.on("value", (snap) => {
-            document.getElementById("phValue").textContent = formatearDecimales(snap.val());
+        refs.capacitivo.on("value", (snap) => {
+            const estado = snap.val();
+            document.getElementById("capacitivo").textContent = estado ? "Objeto detectado" : "Vacio";
+            document.getElementById("capacitivo").className = "text-2xl font-bold " + (estado ? "text-blue-600" : "text-gray-600");
         });
 
         refs.nivelBajo.on("value", (snap) => {
-            document.getElementById("lowLevel").textContent = snap.val() ? "Detectado" : "No detectado";
+            document.getElementById("lowLevel").textContent = snap.val() ? "En liquido" : "Vacio";
         });
 
         refs.nivelAlto.on("value", (snap) => {
-            document.getElementById("highLevel").textContent = snap.val() ? "Detectado" : "No detectado";
+            document.getElementById("highLevel").textContent = snap.val() ? "Capacidad maxima" : "Vacio";
         });
 
         refs.estado.on("value", (snap) => {
@@ -167,41 +171,11 @@
                     case "detener":
                         refs.motor.set(false);
                         break;
-                    case "abrir":
-                        refs.valve.set(true);
-                        break;
-                    case "cerrar":
-                        refs.valve.set(false);
-                        break;
                 }
             });
         });
 
-        refs.automatico.on("value", (snapshot) => {
-            const isAutomatico = snapshot.val();
-            const dashboard = document.getElementById('dashboard');
-            const botones = dashboard.querySelectorAll("button");
-            const tarjetas = dashboard.querySelectorAll(".bg-white");
 
-            botones.forEach(btn => {
-                btn.disabled = isAutomatico;
-                if (isAutomatico) {
-                    btn.classList.add("opacity-50", "cursor-not-allowed");
-                } else {
-                    btn.classList.remove("opacity-50", "cursor-not-allowed");
-                }
-            });
-
-            tarjetas.forEach(card => {
-                if (isAutomatico) {
-                    card.classList.add("pointer-events-none", "opacity-70");
-                } else {
-                    card.classList.remove("pointer-events-none", "opacity-70");
-                }
-            });
-            // Actualiza indicador visual
-            document.getElementById("modoAutomatico").textContent = isAutomatico ? "Automático" : "Manual";
-        });
     </script>
 
     <%- include('partials/footer') %>
