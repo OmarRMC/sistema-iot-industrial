@@ -1,5 +1,53 @@
 <%- include('partials/header') %>
+
     <div class="max-w-6xl mx-auto px-4 py-10">
-        <p>Donde esta los manuales</p>
+        <h2 class="text-2xl font-bold mb-6 text-center text-gray-800">📚 Manuales del Proyecto</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+            <!-- Card 1: PLC Siemens S7-1200 -->
+            <div class="bg-white rounded-xl shadow-md p-6 border">
+                <h3 class="text-xl font-semibold text-blue-700 mb-2">Manual PLC Siemens S7-1200</h3>
+                <p class="text-gray-600 mb-4">Guía completa de instalación, configuración y programación con TIA Portal.
+                </p>
+                <a href="/pdf/manualPLC.pdf" target="_blank"
+                    class="inline-block bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+                    📥 Ver PDF
+                </a>
+            </div>
+
+            <!-- Card 2: Node-RED -->
+            <div class="bg-white rounded-xl shadow-md p-6 border">
+                <h3 class="text-xl font-semibold text-red-600 mb-2">Manual Node-RED</h3>
+                <p class="text-gray-600 mb-4">Introducción y flujos para control y monitoreo visual en tiempo real.</p>
+                <a href="/pdf/node-red-manual.pdf" target="_blank"
+                    class="inline-block bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700">
+                    📥 Ver PDF
+                </a>
+            </div>
+
+            <!-- Card 3: Firebase -->
+            <div class="bg-white rounded-xl shadow-md p-6 border">
+                <h3 class="text-xl font-semibold text-orange-600 mb-2">Manual Firebase</h3>
+                <p class="text-gray-600 mb-4">Conexión y configuración de base de datos en la nube para historial y
+                    monitoreo.</p>
+                <a href="/pdf/manualFirebase.pdf" target="_blank"
+                    class="inline-block bg-orange-600 text-white px-4 py-2 rounded-lg hover:bg-orange-700">
+                    📥 Ver PDF
+                </a>
+            </div>
+
+            <!-- Card 4: Node.js -->
+            <div class="bg-white rounded-xl shadow-md p-6 border">
+                <h3 class="text-xl font-semibold text-green-700 mb-2">Manual Node.js</h3>
+                <p class="text-gray-600 mb-4">Documentación esencial para comprender la arquitectura, eventos y manejo
+                    de servidores en Node.js.</p>
+                <a href="/pdf/node-js-es.pdf" target="_blank"
+                    class="inline-block bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">
+                    📥 Ver PDF
+                </a>
+            </div>
+
+        </div>
     </div>
+
     <%- include('partials/footer') %>
