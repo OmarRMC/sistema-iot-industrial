@@ -18,14 +18,12 @@
                     </button>
                 </div>
                 <!-- pH -->
-                <!-- <div class="bg-white rounded-xl border shadow p-4">
-                    <h3 class="text-gray-700 font-semibold mb-3">Corriente</h3>
+                <div class="bg-white rounded-xl border shadow p-4">
+                    <h3 class="text-gray-700 font-semibold mb-3">Ph</h3>
                     <canvas id="phChart" height="180"></canvas>
-                </div> -->
+                </div>
             </div>
         </div>
-
-
 
 
     </div>
@@ -40,15 +38,26 @@
             return parseFloat(numero).toFixed(decimales);
         }
         // Configuración de Firebase
+        // const firebaseConfig = {
+        //     apiKey: "AIzaSyB41svdnDLDUDTotvn8N0TVfVeNWgG9ypk",
+        //     authDomain: "base-datos-iot-50cb4.firebaseapp.com",
+        //     databaseURL: "https://base-datos-iot-50cb4-default-rtdb.firebaseio.com",
+        //     projectId: "base-datos-iot-50cb4",
+        //     storageBucket: "base-datos-iot-50cb4.firebasestorage.app",
+        //     messagingSenderId: "522493704609",
+        //     appId: "1:522493704609:web:13686733b75bdb9f7c73e0"
+        // };
         const firebaseConfig = {
-            apiKey: "AIzaSyB41svdnDLDUDTotvn8N0TVfVeNWgG9ypk",
-            authDomain: "base-datos-iot-50cb4.firebaseapp.com",
-            databaseURL: "https://base-datos-iot-50cb4-default-rtdb.firebaseio.com",
-            projectId: "base-datos-iot-50cb4",
-            storageBucket: "base-datos-iot-50cb4.firebasestorage.app",
-            messagingSenderId: "522493704609",
-            appId: "1:522493704609:web:13686733b75bdb9f7c73e0"
+            apiKey: "AIzaSyCOwyJDeXCh_owmUB4dg6NMS4CBSzfFCxw",
+            authDomain: "node-red-oit.firebaseapp.com",
+            databaseURL: "https://node-red-oit-default-rtdb.firebaseio.com",
+            projectId: "node-red-oit",
+            storageBucket: "node-red-oit.firebasestorage.app",
+            messagingSenderId: "618040416556",
+            appId: "1:618040416556:web:28877a8f0e32e7c5c47489",
+            measurementId: "G-M4T0SC2YDY"
         };
+
 
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
