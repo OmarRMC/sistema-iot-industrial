@@ -11,16 +11,24 @@
                 </div>
 
                 <div class="text-right">
-                    <button onclick="exportarExcelPorFecha()"
+                    <button onclick="exportarTemExcelPorFecha()"
                         class="inline-flex items-center bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition shadow-sm">
                         <i class="fas fa-file-excel text-white text-lg mr-2"></i>
-                        Descargar reporte Excel
+                        Descargar reporte (Tem) Excel
                     </button>
                 </div>
                 <!-- pH -->
                 <div class="bg-white rounded-xl border shadow p-4">
                     <h3 class="text-gray-700 font-semibold mb-3">Ph</h3>
                     <canvas id="phChart" height="180"></canvas>
+                </div>
+
+                <div class="text-right">
+                    <button onclick="exportarPhExcelPorFecha()"
+                        class="inline-flex items-center bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition shadow-sm">
+                        <i class="fas fa-file-excel text-white text-lg mr-2"></i>
+                        Descargar reporte(pH) Excel
+                    </button>
                 </div>
             </div>
         </div>
@@ -163,7 +171,7 @@
             });
         })
 
-        function exportarExcelPorFecha() {
+        function exportarTemExcelPorFecha() {
 
             db.ref("tem").limitToLast(500).once("value", snapshot => {
                 const datosFiltrados = [];
@@ -186,6 +194,32 @@
 
 
                 XLSX.writeFile(wb, "reporte_temperaturas.xlsx");
+            });
+        }
+
+        function exportarPhExcelPorFecha() {
+
+            db.ref("ph").limitToLast(500).once("value", snapshot => {
+                const datosFiltrados = [];
+
+                snapshot.forEach(child => {
+                    const data = child.val();
+                    console.log(data.ph)
+                    console.log(data.tiempo)
+                    const fecha = new Date(data.tiempo);
+                    datosFiltrados.push({
+                        Fecha: fecha.toLocaleString(),
+                        pH: `${formatearDecimales(data.ph)}`
+                    });
+                    // }
+                });
+
+                const ws = XLSX.utils.json_to_sheet(datosFiltrados);
+                const wb = XLSX.utils.book_new();
+                XLSX.utils.book_append_sheet(wb, ws, "Datos pH");
+
+
+                XLSX.writeFile(wb, "reporte_pH.xlsx");
             });
         }
         // document.getElementById('Filtrar').addEventListener('click', exportarExcelPorFecha);
